@@ -13,6 +13,17 @@ gem 'lazer-rails'
 bundle
 ```
 
+Mount the engine:
+
+```
+# config/routes.rb
+mount Lazer::Engine => "/lazer"
+```
+
+This exposes the `/lazer/schema?lazer_key=API_KEY` endpoint.
+
+The Lazer app will hit this endpoint periodically to keep your schema up to date. The default schedule is daily, but this is configurable in Lazer.
+
 Don't forget to setup your api key in the Lazer app, then set your env variable to your api key:
 
 ```
