@@ -1,28 +1,24 @@
 # Lazer
-Short description and motivation.
 
-## Usage
-How to use my plugin.
+Tiny rails engine to provide your schema to Lazer.
 
 ## Installation
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'lazer'
+gem 'lazer-rails'
 ```
 
-And then execute:
 ```bash
-$ bundle
+bundle
 ```
 
-Or install it yourself as:
-```bash
-$ gem install lazer
-```
+Don't forget to setup your api key in the Lazer app, then set your env variable to your api key:
 
-## Contributing
-Contribution directions go here.
+```
+LAZER_KEY=YOUR_API_KEY
+```
 
 ## License
+
 The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
