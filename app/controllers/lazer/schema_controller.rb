@@ -27,6 +27,7 @@ module Lazer
         rescue => e
           logger.debug "error #{e.message}"
         end
+        model_data[:scopes] = model.instance_variable_get(:@__scopes__)
         model_data[:associations] = associations
         model_data
       end
