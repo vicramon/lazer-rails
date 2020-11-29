@@ -6,18 +6,28 @@ module Lazer
     # todo: page this endpoint so it won't hit as hard
     def show
       authenticate!; return if performed?
+      require_page!; return if performed?
 
       Rails.application.eager_load!
       models = ActiveRecord::Base.descendants
 
       result = {}
 
+      page = params[:page].to_i
+      models_per_page = 30
+      offset = (page - 1) * models_per_page
+
+      models = models[offset, models_per_page] || []
       result[:models] = models.map do |model|
         parse_model(model)
       end
 
       # not necessarily needed, can get tables directly from the db
       # result[:raw_tables] = gather_tables
+
+      result[:count] = models.length
+      result[:page] = page
+      result[:offset] = offset
 
       render json: result.to_json
     end
@@ -64,6 +74,13 @@ module Lazer
     rescue => e
       logger.debug "error parsing model #{model.name}: #{e.message}"
       return {}
+    end
+
+    def require_page!
+      if params[:page].blank?
+        render json: "You must specify a page param", status: 422
+        return
+      end
     end
 
     def authenticate!
