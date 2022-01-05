@@ -61,7 +61,7 @@ module Lazer
       associations = []
       model.reflect_on_all_associations.each do |association|
         associations << {
-          marcro: association.macro,
+          macro: association.macro,
           name: association.name,
           options: association.options,
           table: association.table_name,
