@@ -6,7 +6,7 @@ Tiny rails engine to provide your schema to Lazer.
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'lazer-rails'
+gem 'lazer'
 ```
 
 ```bash
