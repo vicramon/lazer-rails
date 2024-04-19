@@ -10,9 +10,8 @@ Gem::Specification.new do |spec|
   spec.authors     = ["Vic Ramon"]
   spec.email       = ["v@vicramon.com"]
   spec.homepage    = "https://www.github.com/vicramon/lazer-rails"
-  spec.summary     = "Provides secure endpoints to export your schema for Lazer Pro"
-  spec.description = "Provides secure endpoints to export your schema for Lazer Pro"
-  spec.license     = "MIT"
+  spec.summary     = "Provides secure endpoints to export info for Lazer Pro"
+  spec.description = "Provides secure endpoints to export info for Lazer Pro"
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'
   # to allow pushing to a single host or delete this section to allow pushing to any host.
