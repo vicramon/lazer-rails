@@ -3,9 +3,7 @@ require_dependency "lazer/application_controller"
 module Lazer
   class SchemaController < ApplicationController
 
-    # todo: page this endpoint so it won't hit as hard
     def show
-      authenticate!; return if performed?
       require_page!; return if performed?
 
       Rails.application.eager_load!
@@ -65,6 +63,8 @@ module Lazer
           name: association.name,
           options: association.options,
           table: association.table_name,
+          foreign_key: association.foreign_key,
+          # to_table: association.class_name.constantize.table_name,
         }
       end
       # model_data[:columns] = model.column_names
@@ -79,21 +79,6 @@ module Lazer
     def require_page!
       if params[:page].blank?
         render json: "You must specify a page param", status: 422
-        return
-      end
-    end
-
-    def authenticate!
-      if params[:lazer_key].blank?
-        render json: "Missing lazer_key param", status: 401
-        return
-      end
-      if ENV["LAZER_KEY"].blank?
-        render json: "You need to set your LAZER_KEY env variable", status: 401
-        return
-      end
-      if params[:lazer_key] != ENV["LAZER_KEY"]
-        render json: "lazer_key param doesn't match LAZER_KEY env variable", status: 401
         return
       end
     end

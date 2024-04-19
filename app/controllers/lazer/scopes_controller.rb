@@ -4,7 +4,7 @@ module Lazer
   class ScopesController < ApplicationController
 
     def show
-      render json: try_all_models
+      render json: try_all_models.to_json
     end
 
     def try_all_models
@@ -21,12 +21,13 @@ module Lazer
             data[model.name][:scopes] = scopes
             data[model.name][:table_name] = model.table_name
           end
-          worked << model.class_name
+          worked << (model.respond_to?(:class_name) ? model.class_name : model)
         rescue => e
-          failed << [model.class_name, e.message]
+          name = model.respond_to?(:class_name) ? model.class_name : model
         end
       end
-      return { worked: worked, failed: failed, data: data }
+      result = { success: worked, failure: failed, data: data }
+      return result
     end
 
     def get_scopes_for_model(model)
