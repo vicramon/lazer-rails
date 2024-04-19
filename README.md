@@ -1,4 +1,4 @@
-# Lazer
+# Lazer Ruby Gem
 
 This gem provides a Rails engine that allows Lazer to import your apps scopes and Active Record relationships.
 
