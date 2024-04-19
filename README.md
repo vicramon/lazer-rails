@@ -9,6 +9,8 @@ Add this line to your application's Gemfile:
 gem 'lazer'
 ```
 
+Bundle, and restart your server.
+
 ```bash
 bundle
 ```
