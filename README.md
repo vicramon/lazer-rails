@@ -1,6 +1,6 @@
 # Lazer
 
-Rails engine to allow Lazer to import your apps scopes and Active Record relationships.
+This gem provides a Rails engine that allows Lazer to import your apps scopes and Active Record relationships.
 
 ## Installation
 Add this line to your application's Gemfile:
