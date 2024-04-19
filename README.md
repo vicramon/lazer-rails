@@ -1,6 +1,6 @@
 # Lazer
 
-Tiny rails engine to provide your schema to Lazer.
+Rails engine to allow Lazer to import your apps scopes and Active Record relationships.
 
 ## Installation
 Add this line to your application's Gemfile:
@@ -17,19 +17,17 @@ Mount the engine:
 
 ```
 # config/routes.rb
-mount Lazer::Engine => "/lazer"
+mount Lazer::Engine => "/lazer-gem-api"
 ```
 
-This exposes the `/lazer/schema?lazer_key=API_KEY` endpoint.
-
-The Lazer app will hit this endpoint periodically to keep your schema up to date. The default schedule is daily, but this is configurable in Lazer.
-
-Don't forget to setup your api key in the Lazer app, then set your env variable to your api key:
+Add a new codebase in Lazer to get an API key, then set it as an environment variable:
 
 ```
 LAZER_KEY=YOUR_API_KEY
 ```
 
-## License
+## How it works
 
-The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
+This gem adds two endpoints to your app, one for scopes and one for relationships. It uses the API key for authentication.
+
+The Lazer app will hit these endpoints periodically so that your Lazer instance stays up to date.
