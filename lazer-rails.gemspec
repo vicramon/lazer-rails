@@ -5,7 +5,7 @@ require "lazer/version"
 
 # Describe your gem and declare its dependencies:
 Gem::Specification.new do |spec|
-  spec.name        = "lazer"
+  spec.name        = "lazer-rails"
   spec.version     = Lazer::VERSION
   spec.authors     = ["Vic Ramon"]
   spec.email       = ["v@vicramon.com"]

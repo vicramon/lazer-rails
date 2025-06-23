@@ -6,7 +6,7 @@ This gem provides a Rails engine that allows Lazer to import your apps scopes an
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'lazer'
+gem 'lazer-rails'
 ```
 
 Bundle, and restart your server.
