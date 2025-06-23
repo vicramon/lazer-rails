@@ -1,5 +1,3 @@
-require_dependency "lazer/application_controller"
-
 module Lazer
   class ScopesController < ApplicationController
 
@@ -13,46 +11,58 @@ module Lazer
       worked = []
       failed = []
       data = {}
+
       models.each do |model|
         begin
           scopes = get_scopes_for_model(model)
           if scopes.present?
-            data[model.name] ||= {}
-            data[model.name][:scopes] = scopes
-            data[model.name][:table_name] = model.table_name
+            data[model.name] = {
+              scopes: scopes,
+              table_name: model.table_name
+            }
           end
-          worked << (model.respond_to?(:class_name) ? model.class_name : model)
+          worked << (model.respond_to?(:class_name) ? model.class_name : model.name)
         rescue => e
-          name = model.respond_to?(:class_name) ? model.class_name : model
+          failed << {
+            model: (model.respond_to?(:class_name) ? model.class_name : model.name),
+            error: e.message
+          }
         end
       end
-      result = { success: worked, failure: failed, data: data }
-      return result
+
+      { success: worked, failure: failed, data: data }
     end
 
     def get_scopes_for_model(model)
+      return nil unless model.respond_to?(:defined_scopes)
+
       result = {}
-      scopes = model.instance_variable_get(:@__scopes__)
       all_sql = model.all.to_sql
-      return nil if scopes.blank?
-      scopes.each do |scope|
-        name = scope[0]
-        block = scope[1]
-        # for each scope, check the arity. don't handle params for now
-        if block.arity != 0
-          puts "skipped #{name} because arity was #{block.arity}"
-          next
+      model.defined_scopes.each do |name, block|
+        begin
+
+          # for each scope, check the arity. don't handle params for now
+          if block.respond_to?(:arity) && block.arity != 0
+            puts "skipped #{name} because arity was #{block.arity}"
+            next
+          end
+
+          scope_sql = model.send(name).to_sql
+
+          # return scopes that have a where or order only... skip joins for now
+          if !scope_sql.include?(all_sql)
+            puts "skipped #{name} because sql wasn't included"
+            next
+          end
+
+          new_sql = scope_sql.gsub(all_sql, "")&.strip
+          result[name] = new_sql
+        rescue => e
+          Rails.logger.warn "Failed processing scope #{name} on #{model.name}: #{e.message}"
         end
-        scope_sql = model.send(name).to_sql
-        # return scopes that have a where or order only... skip joins for now
-        if !scope_sql.include?(all_sql)
-          puts "skipped #{name} because sql wasn't included"
-          next
-        end
-        new_sql = scope_sql.gsub(all_sql, "")&.strip
-        result[name] = new_sql
       end
-      return result
+
+      result
     end
 
   end
