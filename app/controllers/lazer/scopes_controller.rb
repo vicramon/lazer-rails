@@ -1,3 +1,5 @@
+require_dependency "lazer/application_controller"
+
 module Lazer
   class ScopesController < ApplicationController
 
