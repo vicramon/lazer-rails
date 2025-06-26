@@ -1,7 +1,4 @@
-$:.push File.expand_path("lib", __dir__)
-
-# Maintain your gem's version:
-require "lazer/version"
+require_relative "lib/lazer/version"
 
 # Describe your gem and declare its dependencies:
 Gem::Specification.new do |spec|
@@ -9,6 +6,7 @@ Gem::Specification.new do |spec|
   spec.version     = Lazer::VERSION
   spec.authors     = ["Vic Ramon"]
   spec.email       = ["v@vicramon.com"]
+  spec.require_paths = ["lib"]
   spec.homepage    = "https://www.github.com/vicramon/lazer-engine"
   spec.summary     = "Provides secure endpoints to export info for Lazer Pro"
   spec.description = "Provides secure endpoints to export info for Lazer Pro"
@@ -20,9 +18,10 @@ Gem::Specification.new do |spec|
       "public gem pushes."
   end
 
-  spec.files = Dir["{app,config,db,lib}/**/*", "Rakefile", "README.md"]
+  spec.files = Dir.chdir(File.expand_path(__dir__)) do
+    Dir["{app,config,db,lib}/**/*", "Rakefile", "README.md"]
+  end
 
-  spec.add_dependency "rails", ">= 5.0"
-
-  spec.add_development_dependency "pg"
+  spec.add_dependency "railties", ">= 6.0"
+  spec.add_dependency "rails", ">= 6.0"
 end
