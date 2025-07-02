@@ -19,7 +19,7 @@ Mount the engine:
 
 ```
 # config/routes.rb
-mount Lazer::Engine => "/lazer-gem-api"
+mount Lazer::Engine => "/api/lazer"
 ```
 
 Add a new codebase in Lazer to get an API key, then set it as an environment variable:
