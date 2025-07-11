@@ -7,7 +7,7 @@ Gem::Specification.new do |spec|
   spec.authors     = ["Vic Ramon"]
   spec.email       = ["v@vicramon.com"]
   spec.require_paths = ["lib"]
-  spec.homepage    = "https://www.github.com/vicramon/lazer-engine"
+  spec.homepage    = "https://www.github.com/vicramon/lazer-rails"
   spec.summary     = "Provides secure endpoints to export info for Lazer Pro"
   spec.description = "Provides secure endpoints to export info for Lazer Pro"
 
