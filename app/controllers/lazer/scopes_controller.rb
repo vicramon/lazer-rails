@@ -4,12 +4,26 @@ module Lazer
   class ScopesController < ApplicationController
 
     def show
-      render json: try_all_models.to_json
+      require_page!; return if performed?
+
+      page = params[:page].to_i
+      models_per_page = 30
+      offset = (page - 1) * models_per_page
+
+      Rails.application.eager_load!
+      all_models = ActiveRecord::Base.descendants.sort_by(&:name)
+      paged_models = all_models[offset, models_per_page] || []
+
+      result = {}
+
+      result[:count] = paged_models.length
+      result[:page] = page
+      result[:offset] = offset
+      result[:scopes] = fetch_scopes_for(paged_models)
+      render json: result.to_json
     end
 
-    def try_all_models
-      Rails.application.eager_load!
-      models = ActiveRecord::Base.descendants
+    def fetch_scopes_for(models)
       worked = []
       failed = []
       data = {}
@@ -65,6 +79,13 @@ module Lazer
       end
 
       result
+    end
+
+    def require_page!
+      if params[:page].blank?
+        render json: "You must specify a page param", status: 422
+        return
+      end
     end
 
   end
